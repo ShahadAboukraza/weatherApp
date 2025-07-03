@@ -88,12 +88,11 @@
 }
 
 .left-section {
-  flex: 1;
   color: white;
 }
 
 .greeting {
-  font-size: 48px;
+  font-size: 40px;
   font-weight: 300;
   line-height: 1.1;
   margin-bottom: 15px;
@@ -119,32 +118,17 @@
   }
 }
 
-@keyframes fadeInUpStats {
-  from {
-    opacity: 0;
-    transform: translateY(30px);
-  }
-  to {
-    opacity: 1;
-    transform: translate(-50%, 0);
-  }
-}
-
 .weather-visual {
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
-  z-index: 2;
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 8px;
+  flex: 1;
 }
 
 .big-weather-icon {
   width: 250px;
-  height: 250px;
+  height: 120px;
   object-fit: contain;
   filter: drop-shadow(0 4px 8px rgba(0,0,0,0.2));
 }
@@ -173,6 +157,7 @@
   align-items: flex-end;
   color: white;
   gap: 30px;
+  width: 195px;
 }
 
 .temperature {
@@ -251,17 +236,13 @@
 .cloudy { background: linear-gradient(45deg, #d3d3d3, #a9a9a9); }
 
  .weather-stats {
-   position: absolute;
-   bottom: 30px;
-   left: 50%;
-   transform: translate(-50%, 0);
    display: grid;
    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
    gap: 15px;
    width: 90%;
    max-width: 800px;
-   animation: fadeInUpStats 1s ease-out 1.5s both;
    text-align: center;
+   margin: auto;
  }
 
 .stat-card {
@@ -365,6 +346,31 @@
   border: 1px solid rgba(255, 0, 0, 0.3);
 }
 
+.center-div {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1em;
+  margin-top: 80px;
+  padding: 0 30px;
+}
+
+.bottom-section {
+  display: flex; flex-wrap: wrap; gap: 3em;
+  margin-top: 80px;
+}
+
+@media (max-width: 1218px) {
+  .bottom-section {
+    display: block;
+  }
+
+  .forecast {
+    width: max-content;
+    margin: 30px auto 30px;
+  }
+}
+
 @media (max-width: 768px) {
   .main-content {
     flex-direction: column;
@@ -383,7 +389,7 @@
 
   .big-weather-icon {
     width: 120px;
-    height: 120px;
+    height: 107px;
   }
 
   .right-section {
@@ -391,20 +397,55 @@
   }
 
   .weather-stats {
-    position: fixed;
-    bottom: 20px;
-    left: 50%;
-    transform: translate(-50%, 0);
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
     justify-content: center;
     gap: 15px;
     width: 90%;
     max-width: 800px;
-    z-index: 10;
   }
 
   .search-bar input {
     width: 150px;
   }
+}
+
+@media (max-width: 513px) {
+
+  .header {
+    justify-content: center;
+  }
+
+  .profile {
+    display: none;
+  }
+
+  .greeting {
+    margin-top: 0;
+  }
+
+  .center-div {
+    display: block;
+    margin-top: 0;
+    text-align: center;
+  }
+
+  .greeting-message {
+    margin-bottom: 30px;
+    margin-top: 0;
+  }
+
+  .right-section {
+    margin-top: 30px;
+    width: 100%;
+  }
+
+  .location {
+    text-align: center;
+  }
+
+  .bottom-section {
+    margin-top: 0;
+  }
+
 }

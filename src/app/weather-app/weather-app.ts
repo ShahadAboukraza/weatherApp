@@ -14,12 +14,8 @@ export class WeatherApp implements OnInit {
   city = 'Dubai';
   weatherData: any = null;
   error: string | null = null;
-  userName: string = 'Shahad Osama';
-
+  userName: string = 'Shahad';
   forecastData: any[] = [];
-
-
-
   weatherQuotes: string[] = [
     "The sun always shines above the clouds.",
     "Wherever you go, no matter the weather, always bring your own sunshine.",

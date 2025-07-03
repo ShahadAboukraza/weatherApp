@@ -1,10 +1,4 @@
-<div class="weather-container">
-  <div class="floating-elements">
-    <div class="floating-circle circle-1"></div>
-    <div class="floating-circle circle-2"></div>
-    <div class="floating-circle circle-3"></div>
-  </div>
-
+<div *ngIf="weatherData" style="display: flex; flex-direction: column; gap: 2em; width: 100%; height: 100%; padding: 1em;">
   <header class="header">
     <div class="profile">
       <div class="avatar">👤</div>
@@ -20,56 +14,132 @@
       </button>
     </form>
   </header>
-
-  <main class="main-content" *ngIf="weatherData">
+  <div class="center-div">
     <div class="left-section">
       <h1 class="greeting">{{ getGreeting }}, {{ userName }}</h1>
       <p class="greeting-message">{{ randomQuote }}</p>
     </div>
 
     <div class="weather-visual">
-      <img
-        id="weatherIcon"
-        [src]="'https://openweathermap.org/img/wn/' + weatherData.weather[0].icon + '@2x.png'"
-        alt="weather icon"
-        class="big-weather-icon"
-      />
-      <div class="wind-widget">
-        <svg class="wind-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <path d="M17.7 7.7a2.5 2.5 0 1 1 1.8 4.3H2" />
-          <path d="M9.6 4.6A2 2 0 1 1 11 8H2" />
-          <path d="M12.6 19.4A2 2 0 1 0 14 16H2" />
-        </svg>
-        <span id="windSpeed">{{ weatherData.wind.speed }} m/s</span>
+        <img
+          id="weatherIcon"
+          [src]="'https://openweathermap.org/img/wn/' + weatherData.weather[0].icon + '@2x.png'"
+          alt="weather icon"
+          class="big-weather-icon"
+        />
+        <div class="wind-widget">
+          <svg class="wind-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M17.7 7.7a2.5 2.5 0 1 1 1.8 4.3H2" />
+            <path d="M9.6 4.6A2 2 0 1 1 11 8H2" />
+            <path d="M12.6 19.4A2 2 0 1 0 14 16H2" />
+          </svg>
+          <span id="windSpeed">{{ weatherData.wind.speed }} m/s</span>
+        </div>
       </div>
-    </div>
 
     <div class="right-section">
       <div class="temperature">
         <span class="temp-number" id="temperature">{{ weatherData.main.temp | number: '1.0-0' }}</span>
         <span class="temp-unit">°C</span>
       </div>
-
       <div class="location-info">
         <div class="location" id="cityName">{{ city }}</div>
         <div class="condition" id="weatherCondition">{{ weatherData.weather[0].description | titlecase }}</div>
       </div>
+    </div>
 
-      <!-- ✅ DYNAMIC 5-DAY FORECAST -->
-      <div class="forecast" *ngIf="forecastData.length">
-        <div class="forecast-day" *ngFor="let day of forecastData">
-          <span class="day-name">{{ day.day }}</span>
-          <span class="day-temp">{{ day.temp }}°</span>
-          <img
-            [src]="'https://openweathermap.org/img/wn/' + day.icon + '@2x.png'"
-            alt="icon"
-            class="weather-icon"
-            style="width: 30px; height: 30px;"
-          />
+  </div>
+  <div class="bottom-section">
+    <div style="width: 145px;">&nbsp;</div>
+    <div class="weather-stats" *ngIf="weatherData">
+      <div class="stat-card">
+        <i class="fa-solid fa-temperature-three-quarters stat-icon"></i>
+        <div class="stat-value" id="feelsLike">
+          {{ weatherData.main.feels_like | number: '1.0-0' }}°C
         </div>
+        <div class="stat-label">Feels Like</div>
+      </div>
 
+      <div class="stat-card">
+        <i class="fa-solid fa-droplet stat-icon"></i>
+        <div class="stat-value" id="humidity">{{ weatherData.main.humidity }}%</div>
+        <div class="stat-label">Humidity</div>
+      </div>
+
+      <div class="stat-card">
+        <i class="fa-solid fa-eye stat-icon"></i>
+        <div class="stat-value" id="visibility">
+          {{ weatherData.visibility / 1000 }} km
+        </div>
+        <div class="stat-label">Visibility</div>
+      </div>
+
+      <div class="stat-card">
+        <i class="fa-solid fa-p stat-icon"></i>
+        <div class="stat-value">{{ weatherData.main.pressure }} hPa</div>
+        <div class="stat-label">Pressure</div>
+      </div>
+
+      <div class="stat-card">
+        <i class="fa-solid fa-sun stat-icon"></i>
+        <div class="stat-value" id="sunrise">
+          {{ weatherData.sys.sunrise * 1000 | date:'h:mm a' }}
+        </div>
+        <div class="stat-label">Sunrise</div>
+      </div>
+
+      <div class="stat-card">
+        <i class="fa-solid fa-sun stat-icon"></i>
+        <div class="stat-value" id="sunset">
+          {{ weatherData.sys.sunset * 1000 | date:'h:mm a' }}
+        </div>
+        <div class="stat-label">Sunset</div>
+      </div>
+
+      <div class="stat-card">
+        <i class="fa-solid fa-temperature-high stat-icon"></i>
+        <div class="stat-value" id="minMax">
+          {{ weatherData.main.temp_min | number: '1.0-0' }}° / {{ weatherData.main.temp_max | number: '1.0-0' }}°
+        </div>
+        <div class="stat-label">Min / Max</div>
+      </div>
+
+      <div class="stat-card">
+        <i class="fa-solid fa-cloud-sun stat-icon"></i>
+        <div class="stat-value" id="cloudiness">{{
+            weatherData.clouds.all }}%</div>
+        <div class="stat-label">Cloudiness</div>
+      </div>
+    </div>
+    <div class="forecast" *ngIf="forecastData.length">
+      <div class="forecast-day" *ngFor="let day of forecastData">
+        <span class="day-name">{{ day.day }}</span>
+        <span class="day-temp">{{ day.temp }}°</span>
+        <img
+          [src]="'https://openweathermap.org/img/wn/' + day.icon + '@2x.png'"
+          alt="icon"
+          class="weather-icon"
+          style="width: 30px; height: 30px;"
+        />
+      </div>
+    </div>
+  </div>
 </div>
-</div>
+
+
+<div class="weather-container" style="display: none;">
+  <div class="floating-elements">
+    <div class="floating-circle circle-1"></div>
+    <div class="floating-circle circle-2"></div>
+    <div class="floating-circle circle-3"></div>
+  </div>
+
+
+
+  <main class="main-content" >
+
+
+
 </main>
 
 <!-- ✅ STATS SECTION -->
@@ -133,7 +203,6 @@
     <div class="stat-label">Cloudiness</div>
   </div>
 </div>
-  <!-- ✅ ERROR MESSAGE -->
   <div class="error" *ngIf="error">
     {{ error }}
   </div>
